@@ -34,7 +34,7 @@ function AddHikePage() {
     }
     return (
         <>
-            <h1>This is React WebApp </h1>
+            <h1>Add Hike</h1>
             <form action="">
                 <input type="text" placeholder="name" 
                 value={name} onChange={(e) => setName(e.target.value)} />
