@@ -1,3 +1,4 @@
+import '../App';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState} from 'react';
 import { useNavigate } from "react-router-dom";
@@ -88,10 +89,10 @@ export const EditHikePage = () => {
                     value={hike.location}
                     onChange={e => setLocation(e.target.value)} />                                        
                 <input
-                    type="checkbox"
+                    type="text"
                     placeholder="Enter completed here"
                     value={hike.completed}
-                    onChange={e => setCompleted(e.target.checked)} />  
+                    onChange={e => setCompleted(e.target.value)} />  
                 <button
                     onClick={() => editHike(hike._id)}
                     >Edit</button>

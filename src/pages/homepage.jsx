@@ -1,4 +1,4 @@
-//import './App.css';
+import '../App';
 import HikeTable from '../components/hikeTable';
 
 function Home() {

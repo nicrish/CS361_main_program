@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+
 
 export async function getHikes() {
     const res = await fetch("http://localhost:5001/hikes");

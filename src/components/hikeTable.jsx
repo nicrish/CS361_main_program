@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getHikes, deleteHike } from './hikeData';
+import {DetailsPage} from '../pages/details';
 import { Link } from 'react-router-dom';
 
 function HikeTable() {
@@ -26,9 +27,9 @@ function HikeTable() {
         <tr>
           <th>Name</th>
           <th>Difficulty</th>
-          <th>Elevation</th>
+          {/* <th>Elevation</th>
           <th>Length</th>
-          <th>Location</th>
+          <th>Location</th> */}
           <th>Completed</th>
           <th></th>
           <th></th>
@@ -40,12 +41,12 @@ function HikeTable() {
           <tr key={index}>
             <td>{hike.name}</td>
             <td>{hike.difficulty}</td>
-            <td>{hike.elevation}</td>
+            {/* <td>{hike.elevation}</td>
             <td>{hike.length}</td>
-            <td>{hike.location}</td>
+            <td>{hike.location}</td> */}
             <td>{hike.completed}</td>
             <td>
-              <Link to={`/edithike/${hike._id}`}>Details</Link>
+              <Link to={`/details/${hike._id}`}>Details</Link>
             </td>
             <td>
               <Link to={`/edithike/${hike._id}`}>Edit</Link>

@@ -1,13 +1,16 @@
-export const Help = () => {
-    
+import '../App';
+function HelpPage() {
     return (
         <div>
             <h1>Help Page</h1>
-            <div>
-                <p></p>
-            </div>
+            
+            <ul>
+                <li>Click on the Home Page to see the list of hikes</li>
+                <li>Click on the Create Hike Page to add a hike to the list</li>
+            </ul>
+            
         </div>
     );
 }
 
-export default EditHikePage;
+export default HelpPage;
