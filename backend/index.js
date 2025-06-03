@@ -54,12 +54,73 @@ app.use(cors({
     origin: 'http://localhost:3000' // React frontend URL
 }));
 
-// Sample route to check if the backend is working
-app.get("/hikes", async (req, res) => {
+app.get("/calc", async (req, res) => {
     try {
         const allHikes = await Hike.find({});
-        res.json(allHikes);
+            const response = await fetch('http://localhost:5004/', {
+                method: "POST",
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    data: allHikes
+                })
+            });
+            calc = await response.json();
+        
+        res.json(calc)
+        
     } catch (error) {
+        console.error('Error in /hikes route:', error.message);
+        res.status(500).send('Server error');
+    }
+});
+
+app.get("/hikes", async (req, res) => {
+    try {
+        
+        var {difficulty, completed, search} = req.query
+        const allHikes = await Hike.find({});
+        let filteredHikes = allHikes
+        difficulty = difficulty === 'All' ? undefined : difficulty
+        completed = completed === 'All' ? undefined : completed
+        console.log(search === '')
+        search = search === '' ? undefined : search
+
+
+        if (difficulty !== undefined || completed !== undefined) {
+            const response = await fetch('http://localhost:5002/filter', {
+                method: "POST",
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    difficulty: difficulty,
+                    completed: completed,
+                data: allHikes
+                })
+            });
+            filteredHikes = await response.json();
+        } 
+        if (search !== undefined) {
+
+            console.log("text")
+            const response = await fetch('http://localhost:5003/search', {
+                method: "POST",
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    search: search,
+                    data: filteredHikes
+                })
+            });
+            filteredHikes = await response.json();
+        }
+        res.json(filteredHikes)
+        
+    } catch (error) {
+        console.error('Error in /hikes route:', error.message);
         res.status(500).send('Server error');
     }
 });
@@ -76,6 +137,16 @@ app.get('/hikes/:id', async (req, res) => {
     
     }
 });
+/**
+ * for all api calls
+ *   validate authentication to get user identifier
+ *   get request headers/http method/body/user id in header
+ *   call backend service with the info above
+ * backend service returns the data that you passed it
+ * auth service returns whatever backend service returned
+ */
+
+
 app.put('/hikes/:id', async (req, res) => {
     try {
         const hike = await Hike.findById(req.params.id);

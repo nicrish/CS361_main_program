@@ -12,7 +12,6 @@ const DetailsPage = () => {
         try {
             const response = await fetch(`http://localhost:5001/hikes/${id}`, {
                 method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
             });
             if (response.status === 200) {
                 const hikeData = await response.json();
@@ -36,7 +35,7 @@ const DetailsPage = () => {
 
     useEffect(() => {
         getHike(id);
-    }, [id]);
+    }, []);
 
     if (!hike) return <p>Loading hike details...</p>;
 

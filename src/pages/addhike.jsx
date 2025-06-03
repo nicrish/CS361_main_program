@@ -20,7 +20,7 @@ function AddHikePage() {
                 'Content-Type': 'application/json'
             }
         })
-        result = await result.json();
+        result = result.json();
         console.warn(result);
         if (result) {
             alert("Data saved successfully");

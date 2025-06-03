@@ -2,26 +2,75 @@ import { useEffect, useState } from 'react';
 import { getHikes, deleteHike } from './hikeData';
 import {DetailsPage} from '../pages/details';
 import { Link } from 'react-router-dom';
+import {DifficultyFilter, CompletedFilter} from './HikeFilter';
+import { useSearchParams } from 'react-router-dom';
+import Search from './HikeSearch';
+
 
 function HikeTable() {
+  const [difficulty, setDifficulty] = useState("All");
+    
+  function handleFilterDifficulty(event) {
+      setDifficulty(event.target.value)
+  }
+     
+  const [completed, setCompleted] = useState("All");
+    
+  function handleFilterCompleted(event) {
+      setCompleted(event.target.value)
+  }
+  
   const [hikes, setHikes] = useState([]);
 
+  const [search, setSearch] = useState(""); 
+
+  function handleSearch(newSearch) {
+      setSearch(newSearch)
+     
+  }  
+  function handleSubmit (event) {
+    event.preventDefault();
+    loadData(difficulty, completed, search)
+    setSearch('');
+  };
+
+  async function loadData(difficulty, completed, search) {
+    const data = await getHikes(difficulty, completed, search); 
+    setHikes(data);
+  }
+  
   useEffect(() => {
-    async function loadData() {
-      const data = await getHikes(); // or import { hikes } if using static
-      setHikes(data);
+    loadData(difficulty, completed, search);
+    if (difficulty || completed) {
+    
+    console.log("Difficulty:", difficulty);
+    console.log("Completed:", completed);
+    console.log("Search:", search);
+    
     }
-    loadData();
-  }, []);
+    // if (search) {
+    //   handleSubmit()
+    // }
+    
+  }, [difficulty, completed]);
+
   const handleDelete = async (id) => {
     try {
       await deleteHike(id);
-      setHikes(hikes.filter(hike => hike._id !== id)); // update state
+      // setHikes(hikes.filter(hike => hike._id !== id)); // update state
+      await loadData();
     } catch (err) {
       console.error('Error deleting hike:', err);
     }
   };
+  
+
   return (
+    <>
+    <DifficultyFilter difficulty = {difficulty} handleFilterDifficulty={handleFilterDifficulty}></DifficultyFilter>
+    <CompletedFilter completed = {completed} handleFilterCompleted={handleFilterCompleted}></CompletedFilter>
+    <Search handleSubmit={handleSubmit} handleSearch = {handleSearch} search = {search} setSearch = {setSearch}></Search>
+    
     <table>
       <thead>
         <tr>
@@ -58,6 +107,8 @@ function HikeTable() {
         ))}
       </tbody>
     </table>
+    </>
+
   );
 }
 

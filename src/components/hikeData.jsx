@@ -1,7 +1,14 @@
 
 
-export async function getHikes() {
-    const res = await fetch("http://localhost:5001/hikes");
+export async function getHikes(difficulty, completed, search) {
+    const params = new URLSearchParams();
+    params.append("difficulty", difficulty);
+    params.append("completed", completed);
+    params.append("search", search);
+    console.log(params.toString())
+    console.log("http://localhost:5001/hikes?${params.toString()}")
+    const res = await fetch(`http://localhost:5001/hikes?${params.toString()}`);
+    
     return await res.json();
   }
 export async function deleteHike(id) {
@@ -17,3 +24,10 @@ export async function deleteHike(id) {
     //navigate(`/`);
   }
 }
+
+export async function getData() {
+    
+    const res = await fetch(`http://localhost:5001/calc`);
+    
+    return await res.json();
+  }

@@ -39,7 +39,7 @@ export const EditHikePage = () => {
 
     useEffect(() => {
         getHike(id);
-    }, [id]);
+    }, []);
 
     const setName = (name) => {
         setHike({...hike, name: name})
